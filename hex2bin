@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# DECLARATION DES VARIABLES
+declare HEX
+declare BIN
+declare ARRAY
+declare i
+declare RESULT
+i=0
+
+
+# SAISIR NOMBRE A TRANSFORMER
+echo -e "Veuillez saisir le nombre à transformer :"
+read HEX
+
+
+
+# TRANSFORMER LE NOMBRE EN UN TABLEAU
+while [ $i -lt ${#HEX} ]; do
+  ARRAY[$i]=${HEX:$i:1}
+  let "i = i + 1"
+done
+
+
+# POUR CHAQUE CARACTERE DU TABLEAU, ATTRIBUER UNE VALEUR EN BINAIRE
+for i in "${ARRAY[@]}"
+do
+case $i in
+   0)
+      BIN=0000
+      ;;
+   1)
+      BIN=0001
+      ;;
+   2)
+      BIN=0010
+      ;;
+   3)
+      BIN=0011
+      ;;
+   4)
+      BIN=0100
+      ;;
+   5)
+      BIN=0101
+      ;;
+   6)
+      BIN=0110
+      ;;
+   7)
+      BIN=0111
+      ;;
+   8)
+      BIN=1000
+      ;;
+   9)
+      BIN=1001
+      ;;
+   A)
+      BIN=1010
+      ;;
+   B)
+      BIN=1011
+      ;;
+   C)
+      BIN=1100
+      ;;
+   D)
+      BIN=1101
+      ;;
+   E)
+      BIN=1110
+      ;;
+   F)
+      BIN=1111
+      ;;
+   *)
+      echo "erreur"
+      ;;
+esac
+
+# AJOUTER LA VALEUR BINAIRE A LA DROITE DU RESULTAT
+RESULT="${RESULT}${BIN} "
+done
+
+
+
+# AFFICHER RESULTAT FINAL
+echo +++++++++++++++++++++++++++++++++++
+echo -e "Resultat : ${HEX} = ${RESULT} "
+echo +++++++++++++++++++++++++++++++++++
