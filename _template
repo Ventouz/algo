@@ -7,8 +7,28 @@ read A
 
 
 
+case word in
+  pattern )
+    ;;
+esac
 
+for (( i = 0; i < 10; i++ )); do
+  #statements
+done
 
+if [[ condition ]]; then
+  #statements
+fi
+
+while [[ condition ]]; do
+  #statements
+done
+
+# TRANSFORMER LE NOMBRE EN UN TABLEAU
+while [ $i -lt ${#HEX} ]; do
+  ARRAY[$i]=${HEX:$i:1}
+  let "i = i + 1"
+done
 
 #Boucle
 while [ $VARIABLE != 0 ]; do
