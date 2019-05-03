@@ -1,0 +1,29 @@
+# Fichier while.sh.
+# Exemple d'utilisation de while.
+
+
+# S'il n'y a pas de parametres fournis par l'utilisateur...
+
+if [ $# = 0 ]
+then
+    echo Aucun argument recu !
+    echo "$0 risque de ne pas bien marcher..."
+    echo
+    echo "Normalement il faut fournir de parametres avec ou sans tiret (-)"
+fi
+
+
+# Exemple de traitement des caracteres. Une option commence par '-'.
+# while commence a traiter les arguments a partir de $1 (si on avait
+# specifie "while $3" on aurait commence le traitement des caracteres
+# a partir de $3...) jusqu'au dernnier. Noter que while efface tous
+# les arguments...
+
+while [ -n "$1" ]
+do
+  case $1 in
+    -*) echo "Option : $1" ;;
+    *) echo "Argument : $1 " ;;
+esac
+shift
+done

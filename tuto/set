@@ -1,0 +1,113 @@
+# Fichier set.sh.
+# Exemple d'utilisation de set.
+
+
+# S'il n'y a pas de parametres fournis par l'utilisateur...
+
+if [ $# = 0 ]
+then
+    echo Aucun argument recu !
+    echo "Tant mieux, mais essayez a nouveau le script avec comme"
+    echo "argument un nom d'utilisateur (si possible logue, comme"
+    echo "le votre)..."
+    echo
+fi
+
+
+# Si un argument est fournit (un nom d'utilisateur logue), la variable
+# "nom" se voit affecter cet argument.
+
+nom=$1
+
+
+# Cree la liste des parametres si aucun argument n'a ete recu.
+
+echo "Tant pis, \"set\" va en fabriquer..."
+echo "Tous les fichiers se terminant par \".sh\" (des scripts shell"
+echo "en general) seront les arguments..."
+
+if [ $# = 0 ]
+then
+    set *.sh
+fi
+
+
+echo "Nombre d'arguments passes a $0 : $#"
+
+
+# On peut utiliser set pour recuperer le resultat d'une commande.
+# Les arguments $1, $2, $3... devient alors les champs de la commande,
+# et non les arguments passes par l'utilisateur au script.
+
+# Cherche si le premier argument passe par l'utilisateur au script (et
+# sauvegarde dans la variable "nom" plus haut) correspond a un
+# utilisateur logue.
+
+set `who | grep "^$nom"`
+
+if [ "$1" = "$nom" ]
+then
+    echo "L'utilisateur \"$nom\" est connecte sur $2 depuis le $4 $3 a $5"
+else
+    echo "L'utilisateur \"$nom\" n'est pas connecte"
+fi
+
+
+# D'autres exemples d'utilisation de "set".
+
+set `date` && [ $2 = "Nov" ] && [ $3 = "19" ] \
+&& echo "Bon anniverssaire, $USER "
+
+set `grep "^$nom" /etc/passwd | cut -d: -f1,3,4,6 | tr ":" " "`
+
+if [ "$1" = "$nom" ]
+then
+    echo "L'utilisateur \"$nom\" a un UID = $2 et un GID = $3"
+    echo "son repertoire personnel est $4"
+else
+    echo "L'utilisateur \"$nom\" est inconnu"
+fi
+
+
+#-----#
+# set #
+#-----#
+
+
+bizard=xzorglub
+echo "bizard=xzorglub"
+
+grep "^$bizard" /etc/passwd
+echo "on ne voit rien a l'ecran quand il ne se passe rien..."
+
+# 'set -x' peut servir au debogage d'un script.
+# Les commandes sont alors affichees telles qu'elles seront executees.
+# Taper 'sh -x simple.sh' dans le shell = 'set -x' pour tout le programme.
+
+# Une option activee sera desactivee en remplacent - par + :
+# ex. : set +x --> desactive set -x
+
+set -x
+
+grep "^$bizard" /etc/passwd
+echo "maintenant si..."
+
+# apres 'set +x', plus d'affichage de commandes !
+
+set +x
+
+# 'set -u' affiche un message d'erreur en cas de variable non definie
+# et quitte le script. Enlever le "#" pour tester. Le script se terminera
+# aussitot.
+
+echo $contenu
+# set -u
+echo $contenu
+contenu="-salut"
+echo $contenu
+
+
+# La variable "contenu" sera affectee du premier parametre de position...
+
+set - $contenu
+echo "Option \$1 : $1"

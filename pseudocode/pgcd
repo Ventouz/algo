@@ -1,0 +1,22 @@
+entier a, b, PGCD
+
+écrire "Introduisez le 1er nombre: "
+lire a
+écrire "Introduisez le 2ème nombre: "
+lire b
+tant que NOT (a*b=0) faire
+  selon que
+     a mod 2+b mod 2=0 faire PGCD <-- PGCD*2
+                             a <-- a\2
+                             b <-- b\2
+  oq a mod 2+b mod 2=1 faire si a mod 2=0 alors a <-- a\2
+                             sinon b <-- b\2
+                             fsi
+  oq a mod 2+b mod 2=2 faire si a>b alors a <-- a-b
+                             sinon b <-- b-a
+                             fsi
+  fselon
+ftant
+si a=0 alors écrire "PGCD = ", PGCD*b
+sinon écrire "PGCD = ", PGCD*a
+fsi

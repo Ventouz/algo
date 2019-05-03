@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function is_int {
+	if grep -E -v -q "^-?[0-9]+$" <<< $1; then
+		return 1
+	fi
+	return 0
+}
+
+if [ -z $1 ] || ! is_int $1 || (($1 <= 0)); then
+	printf "\
+Usage: %s nbr_int
+    nbr_int: Un nombre entier supérieur à 0\n" $0
+	exit 1
+fi
+
+a=0
+b=1
+
+while (($b < $1)); do
+	printf "%d\n" $b
+	((b=a+b))
+	((a=b-a))
+done
+
+printf "b/a = %1.15f\n" $(echo $b/$a | bc -l)
+
+exit 0

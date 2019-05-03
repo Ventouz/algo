@@ -1,0 +1,98 @@
+# Fichier case.sh.
+# Exemple d'utilisation de case.
+
+
+# S'il n'y a pas de parametres fournis par l'utilisateur...
+
+if [ $# = 0 ]
+then
+    echo Aucun argument recu !
+    echo "$0 risque de ne pas bien marcher..."
+    echo
+    echo "Le premier argument doit etre le nom d'un utilisateur"
+    echo "(root par defaut)..."
+    echo
+fi
+
+
+#------#
+# case #
+#------#
+
+
+# case sur une variable d'environnement.
+
+case $LOGNAME in
+  root) PS1="# ";;
+  mathieu | piou) PS1="Salut $LOGNAME$ ";;
+  *) PS1="\h:\w$";;
+esac
+
+# Le contenu de la variable d'environnement a ete change. Il faut
+# l'exporter et la proteger en lecture.
+
+export PS1
+readonly PS1
+echo $PS1
+
+
+# case sur le nombre d'arguments fournis par l'utilisateur.
+
+case $# in
+  0) echo "aucun parametre"
+     echo "Syntaxe :  $0 <nom d'utilisateur>";;
+  1) echo "1 parametre passe au programme : $1";;
+  2) echo "2 parametres passes au programme : $1 et $2";;
+  *) echo "TROP DE PARAMETRES !"
+esac
+
+
+# case sur un lecture clavier.
+
+echo "Voulez vous continuer le programme ?"
+read reponse
+case $reponse in
+  [yYoO]*) echo "Ok, on continue";;
+  [nN]*) echo "$0 arrete suite a la mauvaise volonte de l'utilisateur ;-)"
+         exit 0;;
+  *) echo "ERREUR de saisie"
+     exit 1;;
+esac
+
+
+# case sur le premier argument fournit par l'utilisateur.
+
+case $1 in
+  *[!0-9]*) echo "$1 n'est pas un nombre";;
+esac
+
+
+# Sur quel utilisateur va porter le prochain case ?
+
+if [ $# -lt 1 ]
+then
+    utilisateur="root"
+    echo "utilisateur : $utilisateur"
+else
+    utilisateur=$1
+    echo "utilisateur : $utilisateur"
+fi
+
+# Une commande qui cherche si l'utilisateur est logue ou pas.
+
+who | grep "^$utilisateur" > /dev/null 2>&1
+
+# La valeur de retour de la commande precedente ("$?") vaut :
+#       0 si l'utilisateur est logue.
+#       1 si l'utilisateur n'est pas logue.
+#       2 si la syntaxe de la commande precedente est erronee.
+
+case $? in
+  0) echo Message envoye a $utilisateur
+     mail $utilisateur << Fin
+     Et voici $LOGNAME egalement !!
+Fin
+;;
+  1) echo $utilisateur non connecte;;
+  2) echo "ERREUR appel errone de la commande grep";;
+esac

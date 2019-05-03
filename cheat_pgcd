@@ -1,0 +1,50 @@
+#!/bin/bash
+# gcd.sh: plus grand diviseur commun
+#         Utilise l'algorithme d'Euclide
+
+#  Le "plus grand diviseur commun" (pgcd) de deux entiers est l'entier le plus
+#+ important qui divisera les deux sans reste.
+
+#  L'algorihtme d'Euclide utilise des divisions successives.
+#  A chaque passe,
+#+ dividende <---  diviseur
+#+ diviseur  <---  reste
+#+ jusqu'à ce que reste 0.
+#+ pgcd = dividende, à la dernière passe.
+#
+#  Pour une excellente discussion de l'algorithme d'Euclide, voir le site
+#  de Jim Loy, http://www.jimloy.com/number/euclids.htm.
+
+
+
+ARGS=2
+
+if [ $# -ne "$ARGS" ]
+then
+  echo "Usage: `basename $0` premier_nombre deuxieme-nombre"
+fi
+
+
+pgcd ()
+{
+
+  dividende=$1
+  diviseur=$2
+  reste=1
+
+  until [ "$reste" -eq 0 ]
+  do
+    let "reste = $dividende % $diviseur"
+    dividende=$diviseur          #  Maintenant, répétez avec les deux plus
+                                 #+ petits nombres.
+    diviseur=$reste
+  done                           # Algorithme d'Euclide
+
+}                                # Le dernier $dividende est le pgcd.
+
+
+pgcd $1 $2
+
+echo; echo "PGCD de $1 et $2 = $dividende"; echo
+
+exit 0

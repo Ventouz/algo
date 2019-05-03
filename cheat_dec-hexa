@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+if [ -z "$1" ]
+then
+  echo "Usage: $0 nombre"
+  exit $E_SANSARGS
+  # A besoin d'un argument en ligne de commande.
+fi
+# Exercice : ajouter une vérification de la validité de l'argument.
+
+
+hexcvt ()
+{
+if [ -z "$1" ]
+then
+  echo 0
+  return    # "Renvoie" 0 si aucun argument n'est passé à la fonction.
+fi
+
+echo ""$1" "$BASE" o p" | dc
+#                   "o" demande une sortie en base numérique.
+#                   "p" Affiche le haut de la pile.
+# Voir 'man dc' pour plus d'options.
+return
+}
+
+hexcvt "$1"
+
+exit 0

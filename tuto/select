@@ -1,0 +1,67 @@
+# Fichier select.sh.
+# Exemple d'utilisation de select.
+
+
+# S'il n'y a pas de parametres fournis par l'utilisateur...
+
+if [ $# = 0 ]
+then
+    echo Aucun argument recu !
+    echo "$0 risque de ne pas bien marcher..."
+    echo
+fi
+
+
+#--------#
+# select #
+#--------#
+
+
+# Affichage du prompt definit par "PS3".
+
+PS3="Numero (4 ou <Ctrl>-d pour continuer) : "
+
+# Debut de la boucle select.
+
+select nom in mathieu piou root continuer
+do
+
+# Si la variable "nom" contient quelquechose (saisie clavier de
+# l'utilisateur non vide).
+
+    if [ -n "$nom" ]
+    then
+        echo
+        echo "$nom a ete choisit"
+        echo
+
+# Si "continuer" a ete selectionne par l'utilisateur, in sort de la
+# boucle select.
+
+        [ $nom = "continuer" ] && break
+    fi
+done
+
+
+# Affichage du prompt.
+
+PS3="Argument passes : "
+
+# Sans precision de "in", on selectionne dans les arguments du script.
+
+select argument
+do
+
+# Si il y a des arguments passes par l'utilisateur et que le choix de
+# l'utilisateur est une saisie clavier non vide.
+
+if [ $argument != "" ] && [ $# != 0 ]
+then
+    echo
+    echo "Argument selectionne : $argument "
+    echo
+    break
+else
+    echo "Pas d'arguments passes au programme $0..."
+fi
+done

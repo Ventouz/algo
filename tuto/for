@@ -1,0 +1,70 @@
+# Fichier for.sh.
+# Exemple d'utilisation de for.
+
+
+# S'il n'y a pas de parametres fournis par l'utilisateur...
+
+if [ $# = 0 ]
+then
+    echo Aucun argument recu !
+    echo "$0 risque de ne pas bien marcher..."
+    echo
+    echo "Il faut fournir le nom d'un fichier"
+    echo "Conseil : commencer par \"$0 $0\"..."
+    echo
+fi
+
+
+# for sur des operations mathematiques.
+
+somme=0
+
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+    somme=`expr $somme + $i`
+done
+
+echo "Somme 1->10 : $somme"
+
+
+# for sur tous les fichiers se terminant par "sh" (scripts shell).
+
+for fichier in *.sh
+do
+    echo -n $fichier
+    echo -n " "
+
+# Sauvegarde de tous les scripts shell.
+
+#    cp $fichier $fichier%
+done
+
+echo
+
+
+# Pour chaque utilisateur logue, on cherche son numero d'utilisateur
+# et on l'affiche.
+
+for nom in [ `who | cut -c1-9` ]
+do
+    No=$(grep "$nom" /etc/passwd 2> /dev/null | cut -d: -f3)
+    if [ -z "$No" ]
+    then
+# L'utilisateur logue n'a pas de numero d'utilisateur !
+        echo "Oops !"
+    fi
+    echo "$nom : $No"
+done
+
+
+# Affiche la liste des fichiers passes en argument et en fait une
+# copie de sauvegarde.
+
+for fichier # eq. a 'for fichier in $@ do' ($@=tous les arguments)
+do
+    echo -n $fichier
+    echo -n " "
+#    cp $fichier $fichier%
+done
+
+echo
